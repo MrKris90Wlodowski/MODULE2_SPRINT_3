@@ -3,7 +3,23 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod"
+import WrapperContainer from "./components/WrapperContainer/WrapperContainer";
+import FormContainer from "./components/FormContainer/FormContainer";
+import InputTextContainer from "./components/InputTextContainer/InputTextContainer";
+import ButtonContainer from "./components/ButtonContainer/ButtonContainer";
 // import { tr } from "zod/v4/locales";
+
+const App = () => {
+  return (
+    <WrapperContainer>
+      <FormContainer>
+        <InputTextContainer></InputTextContainer>
+        <InputTextContainer></InputTextContainer>
+        <ButtonContainer></ButtonContainer>
+      </FormContainer>
+    </WrapperContainer>
+  )
+}
 
 const schema = z.object({
   name: z
@@ -24,7 +40,7 @@ const schema = z.object({
   .regex(/^[0-9].{9}$/,"Pole musi zawierać cyfry")
 })
 
-function App() {
+function App1() {
 
   const [codeExp,setCodeExp] = useState(false);
 
