@@ -5,9 +5,10 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import WrapperContainer from "./components/WrapperContainer/WrapperContainer";
 import Form from "./components/Form/Form";
-import InputTextContainer from "./components/InputField/InputField";
+import InputField from "./components/InputField/InputField";
 import Button from "./components/Button/Button";
 import TextHeading from "./components/TextHeading/TextHeading";
+import InputSelect from "./components/InputSelect/InputSelect";
 // import { tr } from "zod/v4/locales";
 
 const App = () => {
@@ -15,25 +16,39 @@ const App = () => {
     <WrapperContainer>
       <Form>
         <TextHeading>DANE OSOBOWE</TextHeading>
-        <InputTextContainer
-        name="username"
-        placeholder="imie"
-        type="text"
-        ></InputTextContainer>
-        <InputTextContainer>NAZWISKO</InputTextContainer>
-        <InputTextContainer>E-MAIL</InputTextContainer>
-        <InputTextContainer>NUMER TELEFONU</InputTextContainer>
+        <InputField name="name" placeholder="imie" type="text"></InputField>
+        <InputField
+          name="surname"
+          placeholder="nazwisko"
+          type="text"
+        ></InputField>
+        <InputField name="email" placeholder="imie" type="email"></InputField>
+        <InputField
+          name="phone"
+          placeholder="numer telefonu"
+          type="tel"
+        ></InputField>
         <TextHeading>PREFERENCJE KURSU</TextHeading>
         <WrapperContainer>
-          <TextHeading>WYBIERZ FORMĘ NAUKI
-            <InputTextContainer>STACIONARNA</InputTextContainer>
-            <InputTextContainer>ONLINE</InputTextContainer>
+          <TextHeading>
+            WYBIERZ FORMĘ NAUKI
+            <InputField type="radio">STACIONARNA</InputField>
+            <InputField type="radio">ONLINE</InputField>
           </TextHeading>
         </WrapperContainer>
+        <InputSelect>
+          <option>React</option>
+          <option>Node.js</option>
+          <option>HTML</option>
+          <option>CSS</option>
+          <option>Next.js</option>
+        </InputSelect>
         <TextHeading>DODAJ SWOJE CV</TextHeading>
+        <InputField name="file" type="file"></InputField>
         <TextHeading>DOŚWIADCZENIE W PROGRAMOWANIU</TextHeading>
-        <InputTextContainer></InputTextContainer>
-        <InputTextContainer></InputTextContainer>
+        <InputField name="terms" type="checkbox">
+          Czy masz doswiadczenie w programowaniu ?
+        </InputField>
         <Button>Wyslij zgłoszenie</Button>
       </Form>
     </WrapperContainer>
