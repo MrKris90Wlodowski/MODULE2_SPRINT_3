@@ -1,4 +1,4 @@
-import style from "./ButtonContainer.module.css";
+import style from "./Button.module.css";
 
 const ButtonContainer = ({type, children}) => {
     return (

@@ -1,4 +1,4 @@
-import style from "./FormContainer.module.css";
+import style from "./Form.module.css";
 
 const FormContainer = ({onSubmit, children}) => {
     return (
