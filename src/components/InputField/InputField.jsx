@@ -1,9 +1,21 @@
-import style from "./InputField.module.css"
+import style from "./InputField.module.css";
 
-const InputTextContainer = ({name, placeholder, type, children}) => {
-    return (
-        <label htmlFor={name}>{children}<input className={style.inputText} id={name} placeholder={placeholder} type={type}/></label>
-    )
-}
+const InputField = ({ name, placeholder, type, children, register, onClick, className}) => {
+  return (
+    <div className={`${className || ""}`}>
+    <label htmlFor={name} className={style.labelText}>
+      {children}
+    </label>
+    <input
+        className={style.inputText}
+        id={name}
+        placeholder={placeholder}
+        type={type}
+        {...(register ? register(name) : {})}
+        onClick={onClick}
+    />
+    </div>
+  );
+};
 
-export default InputTextContainer
+export default InputField;

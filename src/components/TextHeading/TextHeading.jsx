@@ -1,8 +1,8 @@
 import style from "./TextHeading.module.css";
 
-const TextHeading = ({children}) => {
+const TextHeading = ({children, className}) => {
     return (
-        <p className={style.headings}>{children}</p>
+        <p className={`${style.headingsStyle} ${className || ""}`}>{children}</p>
     )
 }
 

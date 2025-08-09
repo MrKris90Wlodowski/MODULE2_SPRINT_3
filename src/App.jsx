@@ -10,17 +10,36 @@ import Button from "./components/Button/Button";
 import TextHeading from "./components/TextHeading/TextHeading";
 import InputSelect from "./components/InputSelect/InputSelect";
 // import { tr } from "zod/v4/locales";
+import styleHeading from "./components/TextHeading/TextHeading.module.css";
+import styleButton from "./components/Button/Button.module.css";
+import styleInput from "./components/InputField/InputField.module.css"
+
 
 const App = () => {
+  const [showButtonExp, setShowButtonExp] = useState(false);
+
+  const { register, reset, handleSubmit } = useForm();
+
+  const formData = (formValue) => {
+    console.log(formValue);
+    reset();
+  };
+
   return (
     <WrapperContainer>
-      <Form>
+      <Form onSubmit={handleSubmit(formData)}>
         <TextHeading>DANE OSOBOWE</TextHeading>
-        <InputField name="name" placeholder="imie" type="text"></InputField>
+        <InputField
+          name="name"
+          placeholder="imie"
+          type="text"
+          register={register}
+        ></InputField>
         <InputField
           name="surname"
           placeholder="nazwisko"
           type="text"
+          register={register}
         ></InputField>
         <InputField name="email" placeholder="imie" type="email"></InputField>
         <InputField
@@ -29,14 +48,10 @@ const App = () => {
           type="tel"
         ></InputField>
         <TextHeading>PREFERENCJE KURSU</TextHeading>
-        <WrapperContainer>
-          <TextHeading>
-            WYBIERZ FORMĘ NAUKI
-            <InputField type="radio">STACIONARNA</InputField>
-            <InputField type="radio">ONLINE</InputField>
-          </TextHeading>
-        </WrapperContainer>
-        <InputSelect>
+        <TextHeading className={styleHeading.labelText}>WYBIERZ FORMĘ NAUKI</TextHeading>
+        <InputField type="radio" className={styleInput.inputDiv}>STACIONARNA</InputField>
+        <InputField type="radio" className={styleInput.inputDiv}>ONLINE</InputField>
+        <InputSelect size={5}>
           <option>React</option>
           <option>Node.js</option>
           <option>HTML</option>
@@ -46,10 +61,18 @@ const App = () => {
         <TextHeading>DODAJ SWOJE CV</TextHeading>
         <InputField name="file" type="file"></InputField>
         <TextHeading>DOŚWIADCZENIE W PROGRAMOWANIU</TextHeading>
-        <InputField name="terms" type="checkbox">
+        <InputField
+          name="terms"
+          type="checkbox"
+          onClick={() => setShowButtonExp((prev) => !prev)}
+          className={styleInput.inputDiv}
+        >
           Czy masz doswiadczenie w programowaniu ?
         </InputField>
-        <Button>Wyslij zgłoszenie</Button>
+        {showButtonExp && (
+          <Button className={styleButton.buttonGreen}>Dodaj doswiadczenie</Button>
+        )}
+        <Button type="submit">Wyslij zgłoszenie</Button>
       </Form>
     </WrapperContainer>
   );
@@ -75,12 +98,6 @@ const schema = z.object({
 });
 
 function App1() {
-  const [codeExp, setCodeExp] = useState(false);
-
-  const pickEXP = () => {
-    setCodeExp((prev) => !prev);
-  };
-
   const {
     register,
     handleSubmit,
@@ -143,7 +160,7 @@ function App1() {
         <input type="file" accept="image/jpeg, image/png" />
         <h2>Doświadczenie w programowaniu</h2>
         <label>
-          <input type="checkbox" onClick={pickEXP} />
+          <input type="checkbox" onClick={() => {setShowButtonEXP}} />
           Czy masz doświadczenie w programowaniu?
         </label>
         {codeExp === true && (

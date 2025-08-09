@@ -13,4 +13,19 @@
   background-color: #0000ff;
   cursor: pointer;
   transition: border-color 0.25s;
+  transition: ease-in-out 1s;
+}
+
+.buttonWrapper:hover {
+  background-color: #141474;
+  transition: ease-in-out 1s;
+}
+
+.buttonGreen {
+  background-color: #008000;
+  transition: ease-in-out 1s;
+}
+
+.buttonGreen:hover {
+  background-color: #0d510d;
 }

@@ -1,9 +1,9 @@
 import style from "./Button.module.css";
 
-const ButtonContainer = ({type, children}) => {
+const Button = ({type, children, className, onClick}) => {
     return (
-        <button className={style.buttonWrapper} type={type}>{children}</button>
+        <button className={`${style.buttonWrapper} ${className || ""}`} type={type} onClick={onClick}>{children}</button>
     )
 }
 
-export default ButtonContainer;
+export default Button;
