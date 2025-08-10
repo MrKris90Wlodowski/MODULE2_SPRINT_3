@@ -12,13 +12,36 @@ import InputSelect from "./components/InputSelect/InputSelect";
 // import { tr } from "zod/v4/locales";
 import styleHeading from "./components/TextHeading/TextHeading.module.css";
 import styleButton from "./components/Button/Button.module.css";
-import styleInput from "./components/InputField/InputField.module.css"
+import styleInput from "./components/InputField/InputField.module.css";
 
+const schema = z.object({
+  name: z
+    .string()
+    .nonempty("pole nie może byc puste ")
+    .min(3, "imię musi posiadac co najmniej 3 znaki"),
+  surname: z
+    .string()
+    .nonempty("pole nie może byc puste ")
+    .min(3, "nazwisko musi posiadac co najmniej 3 znaki"),
+  email: z
+    .string()
+    .nonempty("pole nie może byc puste")
+    .email("musisz wpisac poprawny adres email"),
+  phone: z
+  .string()
+  .nonempty("pole nie może byc puste")
+  .regex(/^[0-9]{9}$/,"pole musi zawierac 9 cyfr")
+});
 
 const App = () => {
   const [showButtonExp, setShowButtonExp] = useState(false);
 
-  const { register, reset, handleSubmit } = useForm();
+  const {
+    register,
+    reset,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({ resolver: zodResolver(schema) });
 
   const formData = (formValue) => {
     console.log(formValue);
@@ -34,23 +57,39 @@ const App = () => {
           placeholder="imie"
           type="text"
           register={register}
+          errors={errors}
         ></InputField>
         <InputField
           id="surname"
           placeholder="nazwisko"
           type="text"
           register={register}
+          errors={errors}
         ></InputField>
-        <InputField id="email" placeholder="imie" type="email"></InputField>
         <InputField
-          name="phone"
+          id="email"
+          placeholder="imie"
+          type="email"
+          register={register}
+          errors={errors}
+        ></InputField>
+        <InputField
+          id="phone"
           placeholder="numer telefonu"
           type="tel"
+          register={register}
+          errors={errors}
         ></InputField>
         <TextHeading>PREFERENCJE KURSU</TextHeading>
-        <TextHeading className={styleHeading.labelText}>WYBIERZ FORMĘ NAUKI</TextHeading>
-        <InputField type="radio" name="typeLearn" value="home">STACIONARNA</InputField>
-        <InputField type="radio" name="typeLearn"  value="online">ONLINE</InputField>
+        <TextHeading className={styleHeading.labelText}>
+          WYBIERZ FORMĘ NAUKI
+        </TextHeading>
+        <InputField type="radio" name="typeLearn" value="home">
+          STACIONARNA
+        </InputField>
+        <InputField type="radio" name="typeLearn" value="online">
+          ONLINE
+        </InputField>
         <InputSelect></InputSelect>
         <TextHeading>DODAJ SWOJE CV</TextHeading>
         <InputField id="file" type="file"></InputField>
@@ -64,7 +103,9 @@ const App = () => {
           Czy masz doswiadczenie w programowaniu ?
         </InputField>
         {showButtonExp && (
-          <Button className={styleButton.buttonGreen}>Dodaj doswiadczenie</Button>
+          <Button className={styleButton.buttonGreen}>
+            Dodaj doswiadczenie
+          </Button>
         )}
         <Button type="submit">Wyslij zgłoszenie</Button>
       </Form>
@@ -72,7 +113,7 @@ const App = () => {
   );
 };
 
-const schema = z.object({
+const schemaA = z.object({
   name: z
     .string()
     .nonempty("Pole musi byc wypełnione !")
@@ -97,7 +138,7 @@ function App1() {
     handleSubmit,
     reset,
     formState: { errors },
-  } = useForm({ resolver: zodResolver(schema) });
+  } = useForm({ resolver: zodResolver(schemaA) });
 
   const onSubmit = (formValue) => {
     console.log(formValue);
@@ -154,7 +195,12 @@ function App1() {
         <input type="file" accept="image/jpeg, image/png" />
         <h2>Doświadczenie w programowaniu</h2>
         <label>
-          <input type="checkbox" onClick={() => {setShowButtonEXP}} />
+          <input
+            type="checkbox"
+            onClick={() => {
+              setShowButtonEXP;
+            }}
+          />
           Czy masz doświadczenie w programowaniu?
         </label>
         {codeExp === true && (

@@ -1,7 +1,8 @@
 import style from "./InputField.module.css";
 
-const InputField = ({id, name, placeholder, type, children, register, onClick, value}) => {
+const InputField = ({id, name, placeholder, type, children, register, onClick, value, errors}) => {
   return (
+    <div>
     <label htmlFor={id} className={style.labelText}>
         {children}
         <input
@@ -15,6 +16,8 @@ const InputField = ({id, name, placeholder, type, children, register, onClick, v
         onClick={onClick}
     />
     </label>
+    {errors?.[id] && <p className={style.errorText}>{errors[id].message}</p>}
+    </div>
   );
 };
 
