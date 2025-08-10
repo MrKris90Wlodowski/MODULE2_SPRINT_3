@@ -1,20 +1,20 @@
 import style from "./InputField.module.css";
 
-const InputField = ({ name, placeholder, type, children, register, onClick, className}) => {
+const InputField = ({id, name, placeholder, type, children, register, onClick, value}) => {
   return (
-    <div className={`${className || ""}`}>
-    <label htmlFor={name} className={style.labelText}>
-      {children}
-    </label>
-    <input
+    <label htmlFor={id} className={style.labelText}>
+        {children}
+        <input
         className={style.inputText}
-        id={name}
+        id={id}
         placeholder={placeholder}
         type={type}
-        {...(register ? register(name) : {})}
+        value={value}
+        name={name}
+        {...(register ? register(id) : {})}
         onClick={onClick}
     />
-    </div>
+    </label>
   );
 };
 

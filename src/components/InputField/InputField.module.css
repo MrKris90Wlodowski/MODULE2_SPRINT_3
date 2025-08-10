@@ -20,3 +20,11 @@
 .inputText:focus {
     background-color: #e2dcdc;
 }
+
+.inputText[type="radio"],
+.inputText[type="checkbox"] {
+    width:auto;
+    height: auto;
+    margin: 0.5rem;
+    text-align: center;
+}

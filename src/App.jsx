@@ -30,18 +30,18 @@ const App = () => {
       <Form onSubmit={handleSubmit(formData)}>
         <TextHeading>DANE OSOBOWE</TextHeading>
         <InputField
-          name="name"
+          id="name"
           placeholder="imie"
           type="text"
           register={register}
         ></InputField>
         <InputField
-          name="surname"
+          id="surname"
           placeholder="nazwisko"
           type="text"
           register={register}
         ></InputField>
-        <InputField name="email" placeholder="imie" type="email"></InputField>
+        <InputField id="email" placeholder="imie" type="email"></InputField>
         <InputField
           name="phone"
           placeholder="numer telefonu"
@@ -49,20 +49,14 @@ const App = () => {
         ></InputField>
         <TextHeading>PREFERENCJE KURSU</TextHeading>
         <TextHeading className={styleHeading.labelText}>WYBIERZ FORMĘ NAUKI</TextHeading>
-        <InputField type="radio" className={styleInput.inputDiv}>STACIONARNA</InputField>
-        <InputField type="radio" className={styleInput.inputDiv}>ONLINE</InputField>
-        <InputSelect size={5}>
-          <option>React</option>
-          <option>Node.js</option>
-          <option>HTML</option>
-          <option>CSS</option>
-          <option>Next.js</option>
-        </InputSelect>
+        <InputField type="radio" name="typeLearn" value="home">STACIONARNA</InputField>
+        <InputField type="radio" name="typeLearn"  value="online">ONLINE</InputField>
+        <InputSelect></InputSelect>
         <TextHeading>DODAJ SWOJE CV</TextHeading>
-        <InputField name="file" type="file"></InputField>
+        <InputField id="file" type="file"></InputField>
         <TextHeading>DOŚWIADCZENIE W PROGRAMOWANIU</TextHeading>
         <InputField
-          name="terms"
+          id="terms"
           type="checkbox"
           onClick={() => setShowButtonExp((prev) => !prev)}
           className={styleInput.inputDiv}
