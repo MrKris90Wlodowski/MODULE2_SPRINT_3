@@ -12,7 +12,7 @@ const InputField = ({id, name, placeholder, type, children, register, onClick, v
         type={type}
         value={value}
         name={name}
-        {...(register ? register(id) : {})}
+        {...(register ? register(name) : {})}
         onClick={onClick}
     />
     </label>

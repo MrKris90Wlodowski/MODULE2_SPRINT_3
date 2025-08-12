@@ -1,6 +1,6 @@
 // import "./App.css";
 import { useState } from "react";
-import { useForm } from "react-hook-form";
+import { useForm, useFieldArray } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import WrapperContainer from "./components/WrapperContainer/WrapperContainer";
@@ -13,6 +13,7 @@ import InputSelect from "./components/InputSelect/InputSelect";
 import styleHeading from "./components/TextHeading/TextHeading.module.css";
 import styleButton from "./components/Button/Button.module.css";
 import styleInput from "./components/InputField/InputField.module.css";
+import styleWrapper from "./components/WrapperContainer/WrapperContainer.module.css";
 
 const schema = z.object({
   name: z
@@ -28,32 +29,40 @@ const schema = z.object({
     .nonempty("pole nie może byc puste")
     .email("musisz wpisac poprawny adres email"),
   phone: z
-  .string()
-  .nonempty("pole nie może byc puste")
-  .regex(/^[0-9]{9}$/,"pole musi zawierac 9 cyfr")
+    .string()
+    .nonempty("pole nie może byc puste")
+    .regex(/^[0-9]{9}$/, "pole musi zawierac 9 cyfr"),
 });
 
 const App = () => {
   const [showButtonExp, setShowButtonExp] = useState(false);
+  const [modalData, setModalData] = useState(null);
+
+  const techIT = ["React","Node.js","HTML","CSS","Next.js"]
 
   const {
     register,
     reset,
     handleSubmit,
+    control,
     formState: { errors },
   } = useForm({ resolver: zodResolver(schema) });
 
+  const { fields, append, remove } = useFieldArray({ control, name: "skill" });
+
   const formData = (formValue) => {
     console.log(formValue);
+    setModalData(formValue);
     reset();
   };
 
   return (
-    <WrapperContainer>
+    <WrapperContainer className={styleWrapper.wrapper}>
       <Form onSubmit={handleSubmit(formData)}>
         <TextHeading>DANE OSOBOWE</TextHeading>
         <InputField
           id="name"
+          name="name"
           placeholder="imie"
           type="text"
           register={register}
@@ -61,6 +70,7 @@ const App = () => {
         ></InputField>
         <InputField
           id="surname"
+          name="surname"
           placeholder="nazwisko"
           type="text"
           register={register}
@@ -68,6 +78,7 @@ const App = () => {
         ></InputField>
         <InputField
           id="email"
+          name="email"
           placeholder="imie"
           type="email"
           register={register}
@@ -75,6 +86,7 @@ const App = () => {
         ></InputField>
         <InputField
           id="phone"
+          name="phone"
           placeholder="numer telefonu"
           type="tel"
           register={register}
@@ -82,20 +94,31 @@ const App = () => {
         ></InputField>
         <TextHeading>PREFERENCJE KURSU</TextHeading>
         <TextHeading className={styleHeading.labelText}>
-          WYBIERZ FORMĘ NAUKI
+          WYBIERZ FORMĘ NAUKI:
+          <InputField
+            type="radio"
+            name="typeLearn"
+            value="home"
+            register={register}
+          >
+            STACIONARNA
+          </InputField>
+          <InputField
+            type="radio"
+            name="typeLearn"
+            value="online"
+            register={register}
+          >
+            ONLINE
+          </InputField>
         </TextHeading>
-        <InputField type="radio" name="typeLearn" value="home">
-          STACIONARNA
-        </InputField>
-        <InputField type="radio" name="typeLearn" value="online">
-          ONLINE
-        </InputField>
         <InputSelect></InputSelect>
         <TextHeading>DODAJ SWOJE CV</TextHeading>
-        <InputField id="file" type="file"></InputField>
+        <InputField id="file" name="file" type="file"></InputField>
         <TextHeading>DOŚWIADCZENIE W PROGRAMOWANIU</TextHeading>
         <InputField
           id="terms"
+          name="terms"
           type="checkbox"
           onClick={() => setShowButtonExp((prev) => !prev)}
           className={styleInput.inputDiv}
@@ -103,9 +126,11 @@ const App = () => {
           Czy masz doswiadczenie w programowaniu ?
         </InputField>
         {showButtonExp && (
-          <Button className={styleButton.buttonGreen}>
-            Dodaj doswiadczenie
-          </Button>
+          <WrapperContainer>
+            <Button type="button" className={styleButton.buttonGreen}>
+              Dodaj doswiadczenie
+            </Button>
+          </WrapperContainer>
         )}
         <Button type="submit">Wyslij zgłoszenie</Button>
       </Form>
@@ -113,105 +138,6 @@ const App = () => {
   );
 };
 
-const schemaA = z.object({
-  name: z
-    .string()
-    .nonempty("Pole musi byc wypełnione !")
-    .min(3, "Pole musi zawierać minimum 3 znaki !"),
-  surname: z
-    .string()
-    .nonempty("Pole musi byc wypełnione !")
-    .min(3, "Pole musi zawierać minium 3 znaki !"),
-  email: z
-    .string()
-    .nonempty("Pole musi byc wypełnione !")
-    .email("Pole musi zawierac poprawny adres email"),
-  phoneNum: z
-    .string()
-    .nonempty("Pole musi byc wypełnione !")
-    .regex(/^[0-9].{9}$/, "Pole musi zawierać cyfry"),
-});
 
-function App1() {
-  const {
-    register,
-    handleSubmit,
-    reset,
-    formState: { errors },
-  } = useForm({ resolver: zodResolver(schemaA) });
-
-  const onSubmit = (formValue) => {
-    console.log(formValue);
-    reset();
-  };
-
-  return (
-    <>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <h2>Dane osobowe</h2>
-        <input id="name" {...register("name")} placeholder="Imię" type="text" />
-        {errors.name && errors.name.message}
-        <input
-          id="surname"
-          {...register("surname")}
-          placeholder="Nazwisko"
-          type="text"
-        />
-        {errors.surname && errors.surname.message}
-        <input
-          id="email"
-          {...register("email")}
-          placeholder="E-mail"
-          type="email"
-        />
-        {errors.email && errors.email.message}
-        <input
-          id="phoneNum"
-          {...register("phoneNum")}
-          placeholder="Numer telefonu"
-          type="tel"
-        />
-        {errors.phoneNum && errors.phoneNum.message}
-        <h2>Preferencje kursu</h2>
-        <p>
-          Wybierz formę nauki:
-          <label>
-            Stacjonarna
-            <input id="onSite" type="radio" name="course" />
-          </label>
-          <label>
-            Online
-            <input id="remote" type="radio" name="course" />
-          </label>
-        </p>
-        <select multiple size="5">
-          <option>React</option>
-          <option>Node.js</option>
-          <option>HTML</option>
-          <option>CSS</option>
-          <option>Next.js</option>
-        </select>
-        <h2>Dodaj swoje CV</h2>
-        <input type="file" accept="image/jpeg, image/png" />
-        <h2>Doświadczenie w programowaniu</h2>
-        <label>
-          <input
-            type="checkbox"
-            onClick={() => {
-              setShowButtonEXP;
-            }}
-          />
-          Czy masz doświadczenie w programowaniu?
-        </label>
-        {codeExp === true && (
-          <div>
-            <h2>Hello</h2>
-          </div>
-        )}
-        <button type="submit">Wyslij zgłoszenie</button>
-      </form>
-    </>
-  );
-}
 
 export default App;
