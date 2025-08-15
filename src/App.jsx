@@ -37,8 +37,9 @@ const schema = z.object({
 const App = () => {
   const [showButtonExp, setShowButtonExp] = useState(false);
   const [modalData, setModalData] = useState(null);
+  const [techSkill, setTechSkill] = useState(null);
 
-  const techIT = ["React","Node.js","HTML","CSS","Next.js"]
+  const techIT = ["React", "Node.js", "HTML", "CSS", "Next.js"];
 
   const {
     register,
@@ -79,7 +80,7 @@ const App = () => {
         <InputField
           id="email"
           name="email"
-          placeholder="imie"
+          placeholder="email"
           type="email"
           register={register}
           errors={errors}
@@ -112,7 +113,11 @@ const App = () => {
             ONLINE
           </InputField>
         </TextHeading>
-        <InputSelect></InputSelect>
+        <InputSelect
+          multiple={true}
+          size={techIT.length}
+          options={techIT}
+        ></InputSelect>
         <TextHeading>DODAJ SWOJE CV</TextHeading>
         <InputField id="file" name="file" type="file"></InputField>
         <TextHeading>DOŚWIADCZENIE W PROGRAMOWANIU</TextHeading>
@@ -130,10 +135,22 @@ const App = () => {
             <Button type="button" className={styleButton.buttonGreen}>
               Dodaj doswiadczenie
             </Button>
+            <WrapperContainer>
+              {fields.map((field, index) => (
+                <WrapperContainer key={index}>
+                  <InputSelect></InputSelect>
+                </WrapperContainer>
+              ))}
+            </WrapperContainer>
           </WrapperContainer>
         )}
         <Button type="submit">Wyslij zgłoszenie</Button>
       </Form>
+      { modalData && (
+        <div>
+          <h1>{modalData.name}</h1>
+        </div>
+      )}
     </WrapperContainer>
   );
 };

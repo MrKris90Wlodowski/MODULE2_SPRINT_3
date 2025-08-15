@@ -4,7 +4,7 @@ const InputSelect = ({multiple, size, options}) => {
     return (
         <select multiple={multiple} size={size} className={style.inputSelect}>
             {options.map((option, index) => (
-                <options key={index} value={option}>{option}</options>
+                <option key={index} value={option}>{option}</option>
             ))}
         </select>
     )
