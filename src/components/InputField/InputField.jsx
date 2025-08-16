@@ -1,6 +1,9 @@
 import style from "./InputField.module.css";
 
-const InputField = ({id, name, placeholder, type, children, register, onClick, value, errors}) => {
+const InputField = ({id, name, placeholder, type, children, register, onClick, value, accept, errors}) => {
+
+  // const isRadioInput = type === "radio";
+
   return (
     <div>
     <label htmlFor={id} className={style.labelText}>
@@ -10,9 +13,11 @@ const InputField = ({id, name, placeholder, type, children, register, onClick, v
         id={id}
         placeholder={placeholder}
         type={type}
-        value={value}
         name={name}
-        {...(register ? register(name) : {})}
+        value={value}
+        accept={accept}
+        // {...(isRadioInput && register ? register(name, { value }) : register ? register(name) : {})}
+        {...( register ? register(name) : {})}
         onClick={onClick}
     />
     </label>
