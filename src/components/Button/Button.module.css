@@ -29,3 +29,12 @@
 .buttonGreen:hover {
   background-color: #0d510d;
 }
+
+.buttonRed {
+  background-color: #c94747;
+  transition: ease-in-out 1s;
+}
+
+.buttonRed:hover {
+  background-color: #830a0a;
+}

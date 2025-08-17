@@ -16,6 +16,8 @@ import styleInput from "./components/InputField/InputField.module.css";
 import styleWrapper from "./components/WrapperContainer/WrapperContainer.module.css";
 
 const techIT = ["React", "Node.js", "HTML", "CSS", "Next.js"];
+const yearsOfEXP = ["1", "2", "3", "4", "5"];
+const codeLang = ["Java Script", "Python", "C++", "inne"];
 
 const schema = z.object({
   name: z
@@ -48,7 +50,9 @@ const schema = z.object({
   // techIT: z.enum(["React", "Node.js", "HTML", "CSS", "Next.js"], {
   //   errorMap: () => ({message: "Wybierz jakoś technologię" })
   // })
-  techIT: z.array(z.enum(techIT)).nonempty({ message: "Wybierz jakoś technologię" }),
+  techIT: z
+    .array(z.enum(techIT))
+    .nonempty({ message: "Wybierz jakoś technologię" }),
 });
 
 const App = () => {
@@ -169,13 +173,31 @@ const App = () => {
         </InputField>
         {showButtonExp && (
           <WrapperContainer>
-            <Button type="button" className={styleButton.buttonGreen}>
+            <Button
+              type="button"
+              className={styleButton.buttonGreen}
+              onClick={() => {
+                append({codeLang:"",yearsOfEXP:""});
+              }}
+            >
               Dodaj doswiadczenie
             </Button>
             <WrapperContainer>
               {fields.map((field, index) => (
-                <WrapperContainer key={index}>
-                  <InputSelect></InputSelect>
+                <WrapperContainer key={field.id}>
+                  <InputSelect
+                    multiple={false}
+                    options={codeLang}
+                    name={`experience.${index}.codeLang`}
+                    register={register}
+                  ></InputSelect>
+                  <InputSelect
+                    multiple={false}
+                    options={yearsOfEXP}
+                    name={`experience.${index}.yearsOfEXP`}
+                    register={register}
+                  ></InputSelect>
+                  <Button className={styleButton.buttonRed} type="button" onClick={() => remove(index)}>Usuń</Button>
                 </WrapperContainer>
               ))}
             </WrapperContainer>
