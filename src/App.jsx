@@ -15,6 +15,8 @@ import styleButton from "./components/Button/Button.module.css";
 import styleInput from "./components/InputField/InputField.module.css";
 import styleWrapper from "./components/WrapperContainer/WrapperContainer.module.css";
 
+const techIT = ["React", "Node.js", "HTML", "CSS", "Next.js"];
+
 const schema = z.object({
   name: z
     .string()
@@ -32,15 +34,21 @@ const schema = z.object({
     .string()
     .nonempty("pole nie może byc puste")
     .regex(/^[0-9]{9}$/, "pole musi zawierac 9 cyfr"),
-  typeLearn: z
-  .enum(["home", "online"], {errorMap: () => ({message: "Wybierz formę nauki"})})
-  //   file: z
-  //   .any()
-  //   .refine((files) => files?.length === 1 , {
-  //     message: "Musisz dodać dokładnie jeden plik",
-  //   })
-  // }).refine((files) => ["image/jpeg", "image/png"].includes(files?.[0]?.type), {
-  //   message: "Dozwolone tylko pliki JPEG i PNG"
+  typeLearn: z.enum(["home", "online"], {
+    errorMap: () => ({ message: "Wybierz formę nauki" }),
+  }),
+  file: z
+    .any()
+    .refine((files) => files?.length === 1, {
+      message: "Musisz dodać dokładnie jeden plik",
+    })
+    .refine((files) => ["image/jpeg", "image/png"].includes(files?.[0]?.type), {
+      message: "Dozwolone tylko pliki JPEG i PNG",
+    }),
+  // techIT: z.enum(["React", "Node.js", "HTML", "CSS", "Next.js"], {
+  //   errorMap: () => ({message: "Wybierz jakoś technologię" })
+  // })
+  techIT: z.array(z.enum(techIT)).nonempty({ message: "Wybierz jakoś technologię" }),
 });
 
 const App = () => {
@@ -48,7 +56,7 @@ const App = () => {
   const [modalData, setModalData] = useState(null);
   const [techSkill, setTechSkill] = useState(null);
 
-  const techIT = ["React", "Node.js", "HTML", "CSS", "Next.js"];
+  // const techIT = ["React", "Node.js", "HTML", "CSS", "Next.js"];
 
   const {
     register,
@@ -69,7 +77,7 @@ const App = () => {
   const formData = (formValue) => {
     console.log(formValue);
     setModalData(formValue);
-    reset();
+    // reset();
   };
 
   return (
@@ -136,9 +144,19 @@ const App = () => {
           multiple={true}
           size={techIT.length}
           options={techIT}
+          name="techIT"
+          register={register}
+          errors={errors}
         ></InputSelect>
         <TextHeading>DODAJ SWOJE CV</TextHeading>
-        {/* <InputField id="file" name="file" type="file" accept="image/jpeg, image/png" register={register} errors={errors}></InputField> */}
+        <InputField
+          id="file"
+          name="file"
+          type="file"
+          accept="image/jpeg, image/png"
+          register={register}
+          errors={errors}
+        ></InputField>
         <TextHeading>DOŚWIADCZENIE W PROGRAMOWANIU</TextHeading>
         <InputField
           id="terms"
@@ -169,6 +187,13 @@ const App = () => {
         <div>
           <h1>{modalData.name}</h1>
           <TextHeading>{modalData.surname}</TextHeading>
+          {modalData.file && modalData.file.length > 0 && (
+            <img
+              src={URL.createObjectURL(modalData.file[0])}
+              alt="Prototype"
+              style={{ width: "200px", height: "auto" }}
+            />
+          )}
         </div>
       )}
     </WrapperContainer>
