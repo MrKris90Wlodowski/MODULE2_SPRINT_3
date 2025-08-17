@@ -32,14 +32,16 @@ const schema = z.object({
     .string()
     .nonempty("pole nie może byc puste")
     .regex(/^[0-9]{9}$/, "pole musi zawierac 9 cyfr"),
-  file: z
-  .any()
-  .refine((files) => files?.length === 1 , {
-    message: "Musisz dodać dokładnie jeden plik",
-  })
-}).refine((files) => ["image/jpeg", "image/png"].includes(files?.[0]?.type), {
-  message: "Dozwolone tylko pliki JPEG i PNG"
-})
+  typeLearn: z
+  .enum(["home", "online"], {errorMap: () => ({message: "Wybierz formę nauki"})})
+  //   file: z
+  //   .any()
+  //   .refine((files) => files?.length === 1 , {
+  //     message: "Musisz dodać dokładnie jeden plik",
+  //   })
+  // }).refine((files) => ["image/jpeg", "image/png"].includes(files?.[0]?.type), {
+  //   message: "Dozwolone tylko pliki JPEG i PNG"
+});
 
 const App = () => {
   const [showButtonExp, setShowButtonExp] = useState(false);
@@ -54,12 +56,13 @@ const App = () => {
     handleSubmit,
     control,
     formState: { errors },
-  } = useForm({ resolver: zodResolver(schema), 
+  } = useForm({
+    resolver: zodResolver(schema),
     defaultValues: {
       name: "Kris",
-      typeLearn: "home"
-    }
-   });
+      typeLearn: "home",
+    },
+  });
 
   const { fields, append, remove } = useFieldArray({ control, name: "skill" });
 
@@ -106,8 +109,10 @@ const App = () => {
           errors={errors}
         ></InputField>
         <TextHeading>PREFERENCJE KURSU</TextHeading>
-        <TextHeading className={styleHeading.labelText}>
-          WYBIERZ FORMĘ NAUKI:
+        <WrapperContainer>
+          <TextHeading className={styleHeading.labelText}>
+            WYBIERZ FORMĘ NAUKI:
+          </TextHeading>
           <InputField
             id="home"
             type="radio"
@@ -126,14 +131,14 @@ const App = () => {
           >
             ONLINE
           </InputField>
-        </TextHeading>
+        </WrapperContainer>
         <InputSelect
           multiple={true}
           size={techIT.length}
           options={techIT}
         ></InputSelect>
         <TextHeading>DODAJ SWOJE CV</TextHeading>
-        <InputField id="file" name="file" type="file" accept="image/jpeg, image/png" register={register} errors={errors}></InputField>
+        {/* <InputField id="file" name="file" type="file" accept="image/jpeg, image/png" register={register} errors={errors}></InputField> */}
         <TextHeading>DOŚWIADCZENIE W PROGRAMOWANIU</TextHeading>
         <InputField
           id="terms"
@@ -160,7 +165,7 @@ const App = () => {
         )}
         <Button type="submit">Wyslij zgłoszenie</Button>
       </Form>
-      { modalData && (
+      {modalData && (
         <div>
           <h1>{modalData.name}</h1>
           <TextHeading>{modalData.surname}</TextHeading>
@@ -169,7 +174,5 @@ const App = () => {
     </WrapperContainer>
   );
 };
-
-
 
 export default App;
