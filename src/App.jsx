@@ -1,4 +1,3 @@
-// import "./App.css";
 import { useState } from "react";
 import { useForm, useFieldArray } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -9,7 +8,6 @@ import InputField from "./components/InputField/InputField";
 import Button from "./components/Button/Button";
 import TextHeading from "./components/TextHeading/TextHeading";
 import InputSelect from "./components/InputSelect/InputSelect";
-// import { tr } from "zod/v4/locales";
 import styleHeading from "./components/TextHeading/TextHeading.module.css";
 import styleButton from "./components/Button/Button.module.css";
 import styleInput from "./components/InputField/InputField.module.css";
@@ -47,41 +45,50 @@ const schema = z.object({
     .refine((files) => ["image/jpeg", "image/png"].includes(files?.[0]?.type), {
       message: "Dozwolone tylko pliki JPEG i PNG",
     }),
-  // techIT: z.enum(["React", "Node.js", "HTML", "CSS", "Next.js"], {
-  //   errorMap: () => ({message: "Wybierz jakoś technologię" })
-  // })
   techIT: z
     .array(z.enum(techIT))
     .nonempty({ message: "Wybierz jakoś technologię" }),
+  skill: z.array(
+    z.object({
+      codeLang: z.string(),
+      yearsOfEXP: z.string(),
+    })
+  ),
+  terms: z.boolean().default(false),
 });
 
 const App = () => {
   const [showButtonExp, setShowButtonExp] = useState(false);
   const [modalData, setModalData] = useState(null);
-  const [techSkill, setTechSkill] = useState(null);
-
-  // const techIT = ["React", "Node.js", "HTML", "CSS", "Next.js"];
+  const [errorExp, setErrorExp] = useState(0);
 
   const {
     register,
-    reset,
     handleSubmit,
+    setError,
     control,
     formState: { errors },
   } = useForm({
     resolver: zodResolver(schema),
     defaultValues: {
-      name: "Kris",
       typeLearn: "home",
+      skill: [],
     },
   });
 
   const { fields, append, remove } = useFieldArray({ control, name: "skill" });
 
+
   const formData = (formValue) => {
+    if (errorExp < 1 && showButtonExp) {
+      setError("skill", {
+        type: "manual",
+        message: "Dodaj przynajmniej jedną technologię",
+      });
+      return;
+    }
     console.log(formValue);
     setModalData(formValue);
-    // reset();
   };
 
   return (
@@ -168,6 +175,8 @@ const App = () => {
           type="checkbox"
           onClick={() => setShowButtonExp((prev) => !prev)}
           className={styleInput.inputDiv}
+          register={register}
+          errors={errors}
         >
           Czy masz doswiadczenie w programowaniu ?
         </InputField>
@@ -177,33 +186,49 @@ const App = () => {
               type="button"
               className={styleButton.buttonGreen}
               onClick={() => {
-                append({codeLang:"",yearsOfEXP:""});
+                append({ codeLang: "Java Script", yearsOfEXP: "1" });
+                setErrorExp(errorExp + 1);
               }}
             >
               Dodaj doswiadczenie
             </Button>
+            {errors.skill?.message && (
+              <p className={style.errorText}>{errors.skill.message}</p>
+            )}
             <WrapperContainer>
               {fields.map((field, index) => (
                 <WrapperContainer key={field.id}>
                   <InputSelect
                     multiple={false}
                     options={codeLang}
-                    name={`experience.${index}.codeLang`}
+                    name={`skill.${index}.codeLang`}
                     register={register}
+                    errors={errors}
                   ></InputSelect>
                   <InputSelect
                     multiple={false}
                     options={yearsOfEXP}
-                    name={`experience.${index}.yearsOfEXP`}
+                    name={`skill.${index}.yearsOfEXP`}
                     register={register}
                   ></InputSelect>
-                  <Button className={styleButton.buttonRed} type="button" onClick={() => remove(index)}>Usuń</Button>
+                  <Button
+                    className={styleButton.buttonRed}
+                    type="button"
+                    onClick={() => {
+                      remove(index);
+                      setErrorExp(errorExp + 1);
+                    }}
+                  >
+                    Usuń
+                  </Button>
                 </WrapperContainer>
               ))}
             </WrapperContainer>
           </WrapperContainer>
         )}
-        <Button type="submit">Wyslij zgłoszenie</Button>
+        <Button type="submit">
+          Wyslij zgłoszenie
+        </Button>
       </Form>
       {modalData && (
         <div>

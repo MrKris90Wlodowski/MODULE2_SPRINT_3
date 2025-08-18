@@ -1,11 +1,22 @@
-const ModalForm = ({ formValue }) => {
+import TextHeading from "../TextHeading/TextHeading";
+import WrapperContainer from "../WrapperContainer/WrapperContainer";
+
+const ModalForm = ({ formUserValue }) => {
   return (
-    <div>
-      <p>{formValue.name}</p>
-      <p>{formValue.surname}</p>
-      <p>{formValue.email}</p>
-      <p>{formValue.phone}</p>
-    </div>
+    <WrapperContainer>
+      <TextHeading>Dane Formularza</TextHeading>
+      <WrapperContainer>
+        <TextHeading>Dane osobowe:</TextHeading>
+        <TextHeading>Imię: {formUserValue.name}</TextHeading>
+        <TextHeading>Nazwisko: {formUserValue.surname}</TextHeading>
+        <TextHeading>Email: {formUserValue.email}</TextHeading>
+        <TextHeading>Telefon: {formUserValue.phone}</TextHeading>
+        <TextHeading>Doświadczenie w programowaniu:</TextHeading>
+        <TextHeading>Preferencje kursu:</TextHeading>
+        <TextHeading>Curriculum Vitae:</TextHeading>
+        <img/>
+      </WrapperContainer>
+    </WrapperContainer>
   );
 };
 
