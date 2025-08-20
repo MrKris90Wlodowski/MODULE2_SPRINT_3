@@ -12,6 +12,7 @@ import styleHeading from "./components/TextHeading/TextHeading.module.css";
 import styleButton from "./components/Button/Button.module.css";
 import styleInput from "./components/InputField/InputField.module.css";
 import styleWrapper from "./components/WrapperContainer/WrapperContainer.module.css";
+import ModalForm from "./components/ModalForm/ModalForm";
 
 const techIT = ["React", "Node.js", "HTML", "CSS", "Next.js"];
 const yearsOfEXP = ["1", "2", "3", "4", "5"];
@@ -230,19 +231,7 @@ const App = () => {
           Wyslij zgłoszenie
         </Button>
       </Form>
-      {modalData && (
-        <div>
-          <h1>{modalData.name}</h1>
-          <TextHeading>{modalData.surname}</TextHeading>
-          {modalData.file && modalData.file.length > 0 && (
-            <img
-              src={URL.createObjectURL(modalData.file[0])}
-              alt="Prototype"
-              style={{ width: "200px", height: "auto" }}
-            />
-          )}
-        </div>
-      )}
+      {modalData && <ModalForm formUserValue={modalData}></ModalForm>}
     </WrapperContainer>
   );
 };
