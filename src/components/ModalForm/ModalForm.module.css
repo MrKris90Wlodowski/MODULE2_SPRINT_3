@@ -1,0 +1,41 @@
+.headings {
+  font-weight: 900;
+  font-size: 2rem;
+  margin-top: 2rem;
+  color: #0000ff;
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+}
+
+.wrapperModalClassic {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  z-index: 999;
+  min-height: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem;
+  background-color: #f9f9f9;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.wrapperModal {
+  position: absolute;
+  z-index: 1;
+  min-height: 100%;
+  max-width: 100%; 
+  border: solid black 2px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem;
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  flex-direction: column;
+  gap: 1.5rem;
+}

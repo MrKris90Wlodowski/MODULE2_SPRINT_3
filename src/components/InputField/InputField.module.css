@@ -1,0 +1,35 @@
+.inputDiv {
+    display: flex;
+    flex-direction: row;
+}
+
+.inputText {
+    height: 2rem;
+    width: 100%;
+    border: 0.125rem solid black;
+    border-radius: 0.5rem;
+    background-color: #f9f9f9;
+    font-weight: 600;
+}
+
+.labelText {
+    font-size: 1rem;
+    font-weight: 600;
+}
+
+.errorText {
+    color: #9e0000;
+    font-weight: 900;
+}
+
+.inputText:focus {
+    background-color: #e2dcdc;
+}
+
+.inputText[type="radio"],
+.inputText[type="checkbox"] {
+    width:auto;
+    height: auto;
+    margin: 0.5rem;
+    text-align: center;
+}

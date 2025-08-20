@@ -1,0 +1,40 @@
+.buttonWrapper {
+  /* margin-top: 2rem; */
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  color: 1a1a1a;
+  border: 0.125rem solid black;
+  border-radius: 8px;
+  padding: 0.6rem 1.2rem;
+  font-size: 1rem;
+  font-weight: 500;
+  font-family: inherit;
+  background-color: #0000ff;
+  cursor: pointer;
+  transition: border-color 0.25s;
+  transition: ease-in-out 1s;
+}
+
+.buttonWrapper:hover {
+  background-color: #141474;
+  transition: ease-in-out 1s;
+}
+
+.buttonGreen {
+  background-color: #008000;
+  transition: ease-in-out 1s;
+}
+
+.buttonGreen:hover {
+  background-color: #0d510d;
+}
+
+.buttonRed {
+  background-color: #c94747;
+  transition: ease-in-out 1s;
+}
+
+.buttonRed:hover {
+  background-color: #830a0a;
+}
